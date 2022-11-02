@@ -1,11 +1,18 @@
-import dotenv from 'dotenv'
-import Server from './models/server';
-
-// Configurar dotenv
+import dotenv from 'dotenv';
 dotenv.config();
 
 
-const server = new Server();
+import app from './server';
+app.listen();
 
-server.listen(); 
+import bodyParser from 'body-parser'; // necesitamos instalar body-parser para los req.body
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }))
+
+import allRoutes from './routes/index.routes';
+app.use("/api", allRoutes);
+
+
+import { conexionDB } from './db/conexion';
+conexionDB();
 
